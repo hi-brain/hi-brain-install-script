@@ -6,11 +6,14 @@
 #------------------------
 # Configurations
 #------------------------
-openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.2/OpenRTM-aist-1.1.2.tar.gz"
+#openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.2/OpenRTM-aist-1.1.2.tar.gz"
+openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.1/OpenRTM-aist-1.1.1.tar.gz"
 openrtm_aist_ver="1.1"
-openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.2/OpenRTM-aist-Java-1.1.2-RELEASE-jar.zip"
+#openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.2/OpenRTM-aist-Java-1.1.2-RELEASE-jar.zip"
+openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.0/OpenRTM-aist-Java-1.1.0-RELEASE-jar.zip"
 openrtm_java_ver="1.1"
-openrtp_url="http://openrtm.org/pub/openrtp/packages/1.1.2.v20160526/eclipse442-openrtp112v20160526-ja-linux-gtk-x86_64.tar.gz"
+#openrtp_url="http://openrtm.org/pub/openrtp/packages/1.1.2.v20160526/eclipse442-openrtp112v20160526-ja-linux-gtk-x86_64.tar.gz"
+openrtp_url="http://openrtm.org/pub/openrtp/packages/1.1.0.rc5v20151111/eclipse381-openrtp110rc5v20151111-linux-gtk-x86_64.tar.gz"
 opencv_url="https://github.com/opencv/opencv/archive/3.2.0.zip"
 #opencv_url="https://github.com/opencv/opencv/archive/3.0.0.zip"
 opencv_ver="3.2.0"
@@ -177,9 +180,9 @@ rtmcpp_install() {
   apt autoclean
   apt-get --allow-unauthenticated update
   #if [ $? -gt 0 ]; then
-    #wget_rtmcpp
+    wget_rtmcpp
   #else
-    apt_install $openrtm_packages
+    #apt_install $openrtm_packages
   #fi
 }
 
@@ -244,7 +247,7 @@ openrtm_install(){
   apt_install $required_packages
   rtmcpp_install
   wget_rtmjava
-  apt_install $openrtm_python_tools
+  #apt_install $openrtm_python_tools
   rtshell_install
   wget_openrtp
   echo "openrtm installed"
@@ -393,14 +396,14 @@ var_set(){
 
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a ~/.bashrc
 	#echo -e "/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/environment
+  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/environment
 
 	##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/runtime/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/bin/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/sys/os/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a ~/.bashrc
   #echo -e "${matlib}/extern/lib/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a /etc/environment
+  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a /etc/environment
   echo -e "MATLAB_RUNTIME_PATH=${mcr_ver}" | tee -a /etc/environment
 
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a ~/.bashrc
@@ -471,8 +474,8 @@ check_root
 set_package_list
 misc_install
 openrtm_install
-opencv_install
-compiler_install
-bodhibuilder_install
+#opencv_install
+#compiler_install
+#bodhibuilder_install
 var_set
-etc_func
+#etc_func
