@@ -401,7 +401,7 @@ var_set(){
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a ~/.bashrc
   #echo -e "${matlib}/extern/lib/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a /etc/environment
-  echo -e "MATLAB_RUNTIME_PATH=${mcr_ver}" | tee -a /etc/environment
+  echo -e "MATLAB_RUNTIME_PATH=${matlib}" | tee -a /etc/environment
 
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a ~/.bashrc
   #echo -e "/usr/local/hi-brain/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
