@@ -263,8 +263,8 @@ opencv_install(){
 	cd opencv-${opencv_ver}
 	mkdir opencv_build
 	cd opencv_build
-	cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=ON -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=ON ..
-  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${opencv_ver}/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=ON -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=ON ..
+	cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=OFF ..
+  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${opencv_ver}/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=OFF ..
   make -j $(nproc)
   make install
 	cd ../..
@@ -314,7 +314,7 @@ compiler_install(){
   unzip ${mcr_url##*/} -d matlab
 	./matlab/install
 	rm -rf matlab ${mcr_url##*/}
-  matlib="/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/extern/lib/glnxa64"
+  matlib="/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}"
   echo $mcr_ver
 }
 
@@ -324,7 +324,7 @@ compiler_install(){
 bodhibuilder_install(){
   wget ${bodhibuilder_url} -O ${bodhibuilder_name}
 	#dpkg -i bodhibuilder_2.2.4_all.deb
-  dpkg -i ${bodhibuilder_name} &&
+  dpkg -i ${bodhibuilder_name}
   if [ $? -gt 0 ]; then
     apt -f install
     dpkg -i ${bodhibuilder_name}
@@ -398,10 +398,10 @@ var_set(){
 	##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/runtime/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/bin/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/sys/os/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}" | tee -a ~/.bashrc
-  #echo -e "${matlib}" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}" | tee -a /etc/environment
-  echo -e "MATLAB_RUNTIME_PATH=${matlib}" | tee -a /etc/environment
+  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a ~/.bashrc
+  #echo -e "${matlib}/extern/lib/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
+  echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a /etc/environment
+  echo -e "MATLAB_RUNTIME_PATH=${mcr_ver}" | tee -a /etc/environment
 
   #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a ~/.bashrc
   #echo -e "/usr/local/hi-brain/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
@@ -428,7 +428,7 @@ var_set(){
 	echo 'Exec=openrtp' >> openrtp.desktop
 	echo 'Terminal=false' >> openrtp.desktop
 	chmod +x openrtp.desktop
-	mv openrtm.desktop /usr/share/applications/
+	mv openrtp.desktop /usr/share/applications/
 
 	## pkg-config 登録
 	touch hibrain.pc
