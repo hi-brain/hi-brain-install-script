@@ -20,14 +20,6 @@ opencv_contrib_url="https://github.com/opencv/opencv_contrib.git"
 #opencv_contrib_url=""https://github.com/opencv/opencv_contrib/archive/3.0.0.zip"
 bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.4_all.deb/download"
 bodhibuilder_name="bodhibuilder_2.2.4_all.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.1.0.deb/download"
-#bodhibuilder_name="bodhibuilder_2.1.0.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.beta-02.deb/download"
-#bodhibuilder_name="bodhibuilder_2.2.beta-02.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.beta-03.deb/download"
-#bodhibuilder_name="bodhibuilder_2.2.beta-03.deb"
-#bodhibuilder_url="https://1ec546f91d09b75dc61486eda459b962a77dfda2.googledrive.com/host/0BxCAkREN2WAdfndWTjFqYS0zc1NDR19VQUppb29nLVBJY1BxVnlGTnItVGlNbDJMdlVqR28/bodhibuilder_1.0.0_all_kuma.deb"
-#bodhibuilder_name="bodhibuilder_1.0.0_all_kuma.deb"
 
 set_package_list(){
   git_tools="git git-core git-gui gitk"
@@ -269,8 +261,6 @@ opencv_install(){
   make install
 	cd ../..
 	rm ${opencv_url##*/}
-  #opencv-2.4.5/build/bin/cpp-example-retinaDemo –image lena.jpg
-  #opencv-2.4.5/build/bin/cpp-example-retinaDemo –video
 }
 
 #----------------------------------------
@@ -344,75 +334,18 @@ etc_func(){
   #idlのコピー
   git clone https://github.com/hi-brain/datatypes.git
   cp -r datatypes/ /usr/include/hi-brain/
-
-  #HI-brain sample components install
-  #mkdir /usr/share/hi-brain/
-  #mkdir /usr/share/hi-brain/sample
-
-  #Jupyter Notebook
-  #pip install jupyter
-
-  #Pyenv
-  #apt install git gcc make openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev
-  #cd /usr/local/
-  #git clone git://github.com/yyuu/pyenv.git ./pyenv
-  #mkdir -p ./pyenv/versions ./pyenv/shims
-  #echo 'export PYENV_ROOT="/usr/local/pyenv"' | tee -a /etc/profile.d/pyenv.sh
-  #echo 'export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"' | tee -a /etc/profile.d/pyenv.sh
-  #source /etc/profile.d/pyenv.sh
-
-  #Python3
-  #apt -y install python3
-  #apt -y install python3-dev
-  #apt -y install python3-pip
-  #pip3 install numpy
-  #pip3 install scipy
-  #pip3 install pandas
-  #pip3 install cairocffi
-  #pip3 install matplotlib
-  #apt -y install python3-matplotlib
-
-  #Sublime text 3
-  #add-apt-repository ppa:webupd8team/sublime-text-3
-  #apt update
-  #apt install sublime-text-installer
 }
 
 var_set(){
-  ## select timeout problem
+
   echo -e "options uvcvideo nodrop=1 timeout=50000" | tee -a /etc/modprobe.d/hi-brain.conf
-  ##bash /usr/local/share/rtshell/shell_support
-  ##echo -e "source /usr/local/share/rtshell/shell_support" >> ~/.bashrc
-  ##echo -e "source /usr/local/share/rtshell/shell_support" | tee -a /etc/bash.bashrc
-  ##echo -e "export RTM_ROOT=/usr/include/openrtm-${openrtm_aist_ver}/" >> ~/.bashrc
   echo -e "source /usr/local/lib/python2.7/dist-packages/rtshell/data/shell_support" | tee -a /etc/bash.bashrc
-
-  #echo -e "RTM_JAVA_ROOT=/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a ~/.bashrc
-  #echo -e "/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "RTM_JAVA_ROOT=/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a /etc/environment
-
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a ~/.bashrc
-	#echo -e "/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/environment
-
-	##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/runtime/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/bin/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/sys/os/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}" | tee -a ~/.bashrc
-  #echo -e "${matlib}" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}" | tee -a /etc/environment
   echo -e "MATLAB_RUNTIME_PATH=${matlib}" | tee -a /etc/environment
-
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a ~/.bashrc
-  #echo -e "/usr/local/hi-brain/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a /etc/environment
-
-  #echo -e "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a ~/.bashrc
-  #echo -e "/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a /etc/ld.so.conf.d/hi-brain.conf
 	echo -e "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a /etc/environment
-
-  #echo -e "OpenCV_DIR=/usr/local/opencv${opencv_ver}/" | tee -a ~/.bashrc
-  #echo -e "/usr/local/opencv${opencv_ver}/" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "OpenCV_DIR=/usr/local/opencv${opencv_ver}/" | tee -a /etc/environment
 
 	/bin/bash -c 'source ~/.bashrc'
@@ -439,13 +372,6 @@ var_set(){
 	echo 'Libs:  -L${prefix}/lib -lhi_convert -lhi_sharedmemory -lhi_viewer' >> hibrain.pc
 	echo 'Cflags: -I${prefix}/include' >> hibrain.pc
 	mv hibrain.pc /usr/lib/pkgconfig/
-
-	#firefox
-	#echo -e 'pref("browser.startup.homepage", "file:/usr/share/doc/xul-ext-ubufox/example-homepage.properties");' | tee -a /etc/xul-ext/ubufox.js
-	#sed -i -e "s/browser/#browser/g" /usr/share/doc/xul-ext-ubufox/example-homepage.properties
-	#echo -e "browser.startup.homepage=http://hi-brain.org/|http://www.openrtm.org/" | tee -a /usr/share/doc/xul-ext-ubufox/example-homepage.properties
-	#eclipse履歴の削除
-	#/usr/share/openrtm-1.1/eclipse/configuration/.settings/org.eclipse.ui.ide.prefsのRECENT_WORKSPACES =
 }
 
 #---------------------------------------
