@@ -332,8 +332,8 @@ bodhibuilder_install(){
 }
 
 etc_func(){
-  git clone https://github.com/hi-brain/libhi_convert.git
-  cd libhi_convert
+  git clone https://github.com/hi-brain/hibrain_library.git
+  cd hibrain_library
   cmake .
   make -j $(nproc)
   make install
