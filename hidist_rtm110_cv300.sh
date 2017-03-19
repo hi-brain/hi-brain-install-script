@@ -387,8 +387,8 @@ check_root
 set_package_list
 misc_install
 openrtm_install
-#opencv_install
-#compiler_install
-#bodhibuilder_install
+opencv_install
+compiler_install
+bodhibuilder_install
 var_set
-#etc_func
+etc_func
