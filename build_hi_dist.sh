@@ -7,7 +7,8 @@
 # Configurations
 #------------------------
 #openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.2/OpenRTM-aist-1.1.2.tar.gz"
-openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.1/OpenRTM-aist-1.1.1.tar.gz"
+#openrtm_cpp_url="http://openrtm.org/pub/OpenRTM-aist/cxx/1.1.1/OpenRTM-aist-1.1.1.tar.gz"
+openrtm_cpp_url="http://www.openrtm.org/pub/OpenRTM-aist/cxx/1.1.0/OpenRTM-aist-1.1.0-RELEASE.tar.gz"
 openrtm_aist_ver="1.1"
 #openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.2/OpenRTM-aist-Java-1.1.2-RELEASE-jar.zip"
 openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.0/OpenRTM-aist-Java-1.1.0-RELEASE-jar.zip"
