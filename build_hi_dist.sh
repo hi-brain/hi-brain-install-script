@@ -1,7 +1,7 @@
 #! /bin/bash
 #
 # @file install_hibrain.sh
-# @brief Hi-brain dependent packages install and setup script for Ubuntu 16.04 LTS (x86_64)
+# @brief Hi-brain dependent packages install and setup script for Ubuntu 14.04 LTS (x86_64/i686)
 
 #------------------------
 # Configurations
@@ -12,22 +12,10 @@ openrtm_java_url="http://openrtm.org/pub/OpenRTM-aist/java/1.1.2/OpenRTM-aist-Ja
 openrtm_java_ver="1.1"
 openrtp_url="http://openrtm.org/pub/openrtp/packages/1.1.2.v20160526/eclipse442-openrtp112v20160526-ja-linux-gtk-x86_64.tar.gz"
 opencv_url="https://github.com/opencv/opencv/archive/3.2.0.zip"
-#opencv_url="https://github.com/opencv/opencv/archive/3.0.0.zip"
 opencv_ver="3.2.0"
-#opencv_contrib_url="https://github.com/Itseez/opencv_contrib.git"
 opencv_contrib_url="https://github.com/opencv/opencv_contrib.git"
-#opencv_contrib_zip="https://github.com/opencv/opencv_contrib/archive/3.0.0.zip"
-#opencv_contrib_url=""https://github.com/opencv/opencv_contrib/archive/3.0.0.zip"
-bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.4_all.deb/download"
-bodhibuilder_name="bodhibuilder_2.2.4_all.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.1.0.deb/download"
-#bodhibuilder_name="bodhibuilder_2.1.0.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.beta-02.deb/download"
-#bodhibuilder_name="bodhibuilder_2.2.beta-02.deb"
-#bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.2.beta-03.deb/download"
-#bodhibuilder_name="bodhibuilder_2.2.beta-03.deb"
-#bodhibuilder_url="https://1ec546f91d09b75dc61486eda459b962a77dfda2.googledrive.com/host/0BxCAkREN2WAdfndWTjFqYS0zc1NDR19VQUppb29nLVBJY1BxVnlGTnItVGlNbDJMdlVqR28/bodhibuilder_1.0.0_all_kuma.deb"
-#bodhibuilder_name="bodhibuilder_1.0.0_all_kuma.deb"
+bodhibuilder_url="https://sourceforge.net/projects/bodhibuilder/files/bodhibuilder_2.1.0.deb/download"
+bodhibuilder_name="bodhibuilder_2.1.0.deb"
 
 set_package_list(){
   git_tools="git git-core git-gui gitk"
@@ -172,15 +160,7 @@ wget_rtmcpp() {
 # apt install openrtm(c++)
 #------------------------
 rtmcpp_install() {
-  create_srclist
-  update_source_list
-  apt autoclean
-  apt-get --allow-unauthenticated update
-  #if [ $? -gt 0 ]; then
-    #wget_rtmcpp
-  #else
-    apt_install $openrtm_packages
-  #fi
+  wget_rtmcpp
 }
 
 #------------------------
@@ -263,8 +243,8 @@ opencv_install(){
 	cd opencv-${opencv_ver}
 	mkdir opencv_build
 	cd opencv_build
-	cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=OFF ..
-  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${opencv_ver}/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=OFF -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=OFF ..
+  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local/opencv${opencv_ver} -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D EIGEN_INCLUDE_PATH=/usr/include/eigen3 -D WITH_TBB=ON -D INSTALL_C_EXAMPLES=OFF -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D BUILD_TIFF=ON -D BUILD_TBB=ON ..
+
   make -j $(nproc)
   make install
 	cd ../..
@@ -322,6 +302,8 @@ compiler_install(){
 # Bodhi Builder install
 #----------------------------------------
 bodhibuilder_install(){
+  sudo add-apt-repository ppa:sergiomejia666/xresprobe
+	sudo apt update
   wget ${bodhibuilder_url} -O ${bodhibuilder_name}
 	#dpkg -i bodhibuilder_2.2.4_all.deb
   dpkg -i ${bodhibuilder_name}
@@ -379,40 +361,14 @@ etc_func(){
 }
 
 var_set(){
-  ## select timeout problem
   echo -e "options uvcvideo nodrop=1 timeout=50000" | tee -a /etc/modprobe.d/hi-brain.conf
-  ##bash /usr/local/share/rtshell/shell_support
-  ##echo -e "source /usr/local/share/rtshell/shell_support" >> ~/.bashrc
-  ##echo -e "source /usr/local/share/rtshell/shell_support" | tee -a /etc/bash.bashrc
-  ##echo -e "export RTM_ROOT=/usr/include/openrtm-${openrtm_aist_ver}/" >> ~/.bashrc
   echo -e "source /usr/local/lib/python2.7/dist-packages/rtshell/data/shell_support" | tee -a /etc/bash.bashrc
-
-  #echo -e "RTM_JAVA_ROOT=/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a ~/.bashrc
-  #echo -e "/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "RTM_JAVA_ROOT=/usr/share/openrtm-${openrtm_aist_ver}/java/${openrtm_java_ver}" | tee -a /etc/environment
-
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a ~/.bashrc
-	#echo -e "/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/opencv${opencv_ver}/lib" | tee -a /etc/environment
-
-	##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/runtime/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/bin/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  ##echo -e "/usr/local/MATLAB/MATLAB_Runtime/${mcr_ver}/sys/os/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a ~/.bashrc
-  #echo -e "${matlib}/extern/lib/glnxa64" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${matlib}/extern/lib/glnxa64" | tee -a /etc/environment
-  echo -e "MATLAB_RUNTIME_PATH=${mcr_ver}" | tee -a /etc/environment
-
-  #echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a ~/.bashrc
-  #echo -e "/usr/local/hi-brain/lib" | tee -a /etc/ld.so.conf.d/hi-brain.conf
+  echo -e "MATLAB_RUNTIME_PATH=${matlib}" | tee -a /etc/environment
   echo -e "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/hi-brain/lib" | tee -a /etc/environment
-
-  #echo -e "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a ~/.bashrc
-  #echo -e "/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a /etc/ld.so.conf.d/hi-brain.conf
 	echo -e "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/usr/local/opencv${opencv_ver}/lib/pkgconfig" | tee -a /etc/environment
-
-  #echo -e "OpenCV_DIR=/usr/local/opencv${opencv_ver}/" | tee -a ~/.bashrc
-  #echo -e "/usr/local/opencv${opencv_ver}/" | tee -a /etc/ld.so.conf.d/hi-brain.conf
   echo -e "OpenCV_DIR=/usr/local/opencv${opencv_ver}/" | tee -a /etc/environment
 
 	/bin/bash -c 'source ~/.bashrc'
@@ -439,13 +395,6 @@ var_set(){
 	echo 'Libs:  -L${prefix}/lib -lhi_convert -lhi_sharedmemory -lhi_viewer' >> hibrain.pc
 	echo 'Cflags: -I${prefix}/include' >> hibrain.pc
 	mv hibrain.pc /usr/lib/pkgconfig/
-
-	#firefox
-	#echo -e 'pref("browser.startup.homepage", "file:/usr/share/doc/xul-ext-ubufox/example-homepage.properties");' | tee -a /etc/xul-ext/ubufox.js
-	#sed -i -e "s/browser/#browser/g" /usr/share/doc/xul-ext-ubufox/example-homepage.properties
-	#echo -e "browser.startup.homepage=http://hi-brain.org/|http://www.openrtm.org/" | tee -a /usr/share/doc/xul-ext-ubufox/example-homepage.properties
-	#eclipse履歴の削除
-	#/usr/share/openrtm-1.1/eclipse/configuration/.settings/org.eclipse.ui.ide.prefsのRECENT_WORKSPACES =
 }
 
 #---------------------------------------
